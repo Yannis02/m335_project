@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
+import '../model/speedometer.dart';
+//import 'package:sensors/sensors.dart';
+import 'dart:math';
 
+import 'package:m335_project/model/songLibrary.dart';
 import 'package:m335_project/pages/libraryPage.dart';
 import 'package:m335_project/pages/carModePage.dart';
 
 class NormalStartPage extends StatefulWidget {
+
   @override
   State<NormalStartPage> createState() => _NormalStartPageState();
 
   }
 
 class _NormalStartPageState extends State<NormalStartPage>{
+  forceRedraw(){
+    setState(() => {});
+  }
+  final player = AudioPlayer();
+  //final duration = await player.setUrl(           // Load a URL
+  //'lib/media/congratulations.mp3');
   @override
   Widget build(BuildContext context) {
+    var songs = Provider.of<SongLibrary>(context);
+    String songName = songs.randomSong;
     return Scaffold(
       appBar: AppBar(
         title: Text("Music Player"),
@@ -50,20 +64,23 @@ class _NormalStartPageState extends State<NormalStartPage>{
               width: 220,
 
             ), SizedBox(height: MediaQuery.of(context).size.height*0.1,),
-            Center(
-              child: Text("Music Title",
+            GestureDetector(
+              onTap: forceRedraw,
+              child: Center(
+              child: Text(songName,
               style: TextStyle(
                 fontSize: 40,
               ),),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height*0.1,),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height*0.05,),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
                   icon: Image.asset('lib/media/schildkrote.png'),
-                  iconSize: 100,
+                  iconSize: 80,
 
                   onPressed: () {},
                 ),
@@ -77,7 +94,7 @@ class _NormalStartPageState extends State<NormalStartPage>{
                 SizedBox(width: 20),
                 IconButton(
                   icon: Image.asset('lib/media/hase.png'),
-                  iconSize: 100,
+                  iconSize: 80,
 
                   onPressed: () {},
                 ),

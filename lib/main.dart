@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:m335_project/pages/normalStartPage.dart';
 import 'package:m335_project/pages/carModePage.dart';
 import 'package:m335_project/pages/libraryPage.dart';
+import 'package:m335_project/model/songLibrary.dart';
 
 void main() {
-  runApp(const VideoApp());
+  SongLibrary data = SongLibrary();
+  runApp(VideoApp(data));
 }
 
 class VideoApp extends StatelessWidget {
-  const VideoApp({Key? key}) : super(key: key);
+  final SongLibrary data;
+  VideoApp(this.data, {Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  // This widget is the root  of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return ChangeNotifierProvider<SongLibrary>(
+      create: (_) => data, child: MaterialApp(
+      title: 'Music Player',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,7 +34,7 @@ class VideoApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: NormalStartPage(),
-    );
+    ), );
   }
 }
 
