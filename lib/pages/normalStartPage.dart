@@ -57,28 +57,39 @@ class _NormalStartPageState extends State<NormalStartPage>{
               ),),
             ),
             SizedBox(height: MediaQuery.of(context).size.height*0.1,),
-            ButtonBar(
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(child: ConstrainedBox(
-                    constraints: BoxConstraints.expand(),
-                    child: FlatButton(
-                        onPressed: null,
-                        padding: EdgeInsets.all(0.0),
-                        child: Image.asset('lib/media/posty.jpg')))),
-                RaisedButton(
-                  child: Text("No"),
-                  onPressed: (){},
+                IconButton(
+                  icon: Image.asset('lib/media/schildkrote.png'),
+                  iconSize: 100,
+
+                  onPressed: () {},
                 ),
-                RaisedButton(
-                  child: Text("No"),
-                  onPressed: (){},
+                SizedBox(width: 20),
+                IconButton(
+                icon: Icon(Icons.play_circle_outline),
+                  iconSize: 100,
+
+                  onPressed: () {},
+                ),
+                SizedBox(width: 20),
+                IconButton(
+                  icon: Image.asset('lib/media/hase.png'),
+                  iconSize: 100,
+
+                  onPressed: () {},
                 ),
               ],
-              alignment: MainAxisAlignment.center,
-              buttonPadding: EdgeInsets.all(30),
             )
-          ],
-        )
+            )
+
+              ],
+
+            ),
+
+
     );
   }
 
