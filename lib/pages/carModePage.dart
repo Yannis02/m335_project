@@ -69,7 +69,6 @@ class _CarModePageState extends State<CarModePage>{
                     onPressed: (){
                       setState((){
                         stateSong++;
-                        print(stateSong);
                       });
 
                     },
