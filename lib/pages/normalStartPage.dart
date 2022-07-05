@@ -21,6 +21,7 @@ class _NormalStartPageState extends State<NormalStartPage>{
     setState(() => {});
   }
   final player = AudioPlayer();
+  var zustand = 0;
   //final duration = await player.setUrl(           // Load a URL
   //'lib/media/congratulations.mp3');
   @override
@@ -67,7 +68,7 @@ class _NormalStartPageState extends State<NormalStartPage>{
             GestureDetector(
               onTap: forceRedraw,
               child: Center(
-              child: Text(songName,
+              child: Text("songName",
               style: TextStyle(
                 fontSize: 40,
               ),),
@@ -86,10 +87,14 @@ class _NormalStartPageState extends State<NormalStartPage>{
                 ),
                 SizedBox(width: 20),
                 IconButton(
-                icon: Icon(Icons.play_circle_outline),
-                  iconSize: 100,
+                onPressed: (){
+                  setState((){
+                    zustand++;
+                  });
 
-                  onPressed: () {},
+                },
+                icon: (zustand % 2 == 0) ? Icon(Icons.play_circle_outline) :  Icon(Icons.stop),
+                  iconSize: 100,
                 ),
                 SizedBox(width: 20),
                 IconButton(

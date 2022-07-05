@@ -14,6 +14,7 @@ class CarModePage extends StatefulWidget {
 }
 
 class _CarModePageState extends State<CarModePage>{
+  var stateSong = 0;
   forceRedraw(){
     setState(() => {});
   }
@@ -65,10 +66,15 @@ class _CarModePageState extends State<CarModePage>{
                 children: [
                   SizedBox(width: 20),
                   IconButton(
-                    icon: Icon(Icons.play_circle_outline),
-                    iconSize: 100,
+                    onPressed: (){
+                      setState((){
+                        stateSong++;
+                        print(stateSong);
+                      });
 
-                    onPressed: () {},
+                    },
+                    icon: (stateSong % 2 == 0) ? Icon(Icons.play_circle_outline) :  Icon(Icons.stop),
+                    iconSize: 100,
                   ),
                   SizedBox(width: 20),
                 ],
