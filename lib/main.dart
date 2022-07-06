@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
 import 'package:m335_project/pages/normalStartPage.dart';
@@ -6,14 +7,22 @@ import 'package:m335_project/pages/carModePage.dart';
 import 'package:m335_project/pages/libraryPage.dart';
 import 'package:m335_project/model/songLibrary.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final player = AudioPlayer();                   // Create a player
+  final duration = await player.setUrl('https://www.mboxdrive.com/congratulations.mp3');
+  // https://www.mboxdrive.com/circles.mp3
+  // https://www.mboxdrive.com/rockstar.mp3
+  // https://www.mboxdrive.com/wow.mp3
+  // https://www.mboxdrive.com/oneRightNow.mp3
   SongLibrary data = SongLibrary();
-  runApp(VideoApp(data));
+  runApp(VideoApp(data, player));
 }
 
 class VideoApp extends StatelessWidget {
   final SongLibrary data;
-  VideoApp(this.data, {Key? key}) : super(key: key);
+  final AudioPlayer audioData;
+  VideoApp(this.data,this.audioData, {Key? key}) : super(key: key);
 
   // This widget is the root  of your application.
   @override
@@ -33,7 +42,7 @@ class VideoApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: NormalStartPage(),
+      home: NormalStartPage(audioData),
     ), );
   }
 }

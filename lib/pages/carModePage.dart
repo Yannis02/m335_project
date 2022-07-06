@@ -28,18 +28,6 @@ class _CarModePageState extends State<CarModePage>{
         title: Text("Car Mode"),
         foregroundColor: Colors.tealAccent,
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return NormalStartPage();
-                  }),
-                );
-              },
-              icon: Icon(Icons.directions_walk)),
-        ],
       ),
       body: Column(
         children: [

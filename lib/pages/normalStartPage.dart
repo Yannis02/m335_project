@@ -10,6 +10,9 @@ import 'package:m335_project/pages/libraryPage.dart';
 import 'package:m335_project/pages/carModePage.dart';
 
 class NormalStartPage extends StatefulWidget {
+  AudioPlayer player;
+  NormalStartPage(this.player);
+
 
   @override
   State<NormalStartPage> createState() => _NormalStartPageState();
@@ -17,11 +20,12 @@ class NormalStartPage extends StatefulWidget {
   }
 
 class _NormalStartPageState extends State<NormalStartPage>{
+
   forceRedraw(){
     setState(() => {});
   }
-  final player = AudioPlayer();
   var zustand = 0;
+  double x = 1;
   //final duration = await player.setUrl(           // Load a URL
   //'lib/media/congratulations.mp3');
   @override
@@ -68,7 +72,7 @@ class _NormalStartPageState extends State<NormalStartPage>{
             GestureDetector(
               onTap: forceRedraw,
               child: Center(
-              child: Text("songName",
+              child: Text(songName,
               style: TextStyle(
                 fontSize: 40,
               ),),
@@ -83,7 +87,9 @@ class _NormalStartPageState extends State<NormalStartPage>{
                   icon: Image.asset('lib/media/schildkrote.png'),
                   iconSize: 80,
 
-                  onPressed: () {},
+                  onPressed: () {
+                    slow(widget.player);
+                },
                 ),
                 SizedBox(width: 20),
                 IconButton(
@@ -91,7 +97,10 @@ class _NormalStartPageState extends State<NormalStartPage>{
                   setState((){
                     zustand++;
                   });
-
+                  (zustand % 2 == 0) ? pause(widget.player) : play(widget.player);
+                  if (zustand % 2 == 0){
+                    reset(widget.player);
+                  }
                 },
                 icon: (zustand % 2 == 0) ? Icon(Icons.play_circle_outline) :  Icon(Icons.stop),
                   iconSize: 100,
@@ -101,7 +110,9 @@ class _NormalStartPageState extends State<NormalStartPage>{
                   icon: Image.asset('lib/media/hase.png'),
                   iconSize: 80,
 
-                  onPressed: () {},
+                  onPressed: () {
+                    fast(widget.player);
+                  },
                 ),
               ],
             )
@@ -113,6 +124,26 @@ class _NormalStartPageState extends State<NormalStartPage>{
 
 
     );
+
+  }
+  play(AudioPlayer player) async{
+    await player.play();
+
+  }
+
+  pause(AudioPlayer player) async{
+    await player.pause();
+  }
+  fast(AudioPlayer player) async{
+    await player.setSpeed(x + 0.1);
+  }
+
+  slow(AudioPlayer player) async{
+    await player.setSpeed(x  - 0.1);
+  }
+
+  reset(AudioPlayer player) async{
+    await player.setSpeed(1.0);
   }
 
 }

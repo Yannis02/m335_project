@@ -31,20 +31,6 @@ class _LibraryPageState extends State<LibraryPage> {
         title: Text("Music Library"),
         foregroundColor: Colors.tealAccent,
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return NormalStartPage();
-                  }),
-                );
-              },
-              icon: Icon(Icons.play_circle_outline),
-          ),
-
-        ],
       ),
       body: Container(
         child: Column(
