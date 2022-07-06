@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:m335_project/model/urlLibrary.dart';
 import 'package:provider/provider.dart';
 import '../model/speedometer.dart';
+import 'package:flutter_bounce/flutter_bounce.dart';
 
 //import 'package:sensors/sensors.dart';
 import 'dart:math';
@@ -19,21 +21,42 @@ class NormalStartPage extends StatefulWidget {
   State<NormalStartPage> createState() => _NormalStartPageState();
 }
 
-class _NormalStartPageState extends State<NormalStartPage> {
+class _NormalStartPageState extends State<NormalStartPage>
+    with TickerProviderStateMixin {
   forceRedraw() {
     setState(() => {});
   }
 
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  final Tween<double> turnsTween = Tween<double>(
+    begin: 1,
+    end: 0,
+  );
   var zustand = 0;
   String? songName;
 
-  //final duration = await player.setUrl(           // Load a URL
-  //'lib/media/congratulations.mp3');
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn,);
+    _controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var songs = Provider.of<SongLibrary>(context);
     if (songName == null) {
-      songName = songs.randomSong;
+      //songName = songs.randomSong;
+      songName = "Congratulations";
     }
     return Scaffold(
       appBar: AppBar(
@@ -64,81 +87,96 @@ class _NormalStartPageState extends State<NormalStartPage> {
         ],
       ),
       body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
-          Container(
-            child: Image.asset('lib/media/posty.jpg'),
-            height: 220,
-            width: 220,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
-          GestureDetector(
-            onTap: (){
-              setState((){
-                songName = songs.randomSong;
-              });
-            },
-            child: Center(
-              child: Text(
-                songName ?? "",
-                style: TextStyle(
-                  fontSize: 40,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
-          Center(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
+          children: [
+      SizedBox(
+      height: MediaQuery.of(context).size.height * 0.1,
+    ),
+    Container(
+    child: Image.asset('lib/media/posty.jpg'),
+    height: 220,
+    width: 220,
+    ),
+    SizedBox(
+    height: MediaQuery.of(context).size.height * 0.1,
+    ),
+    GestureDetector(
+    onTap: () {
+    setState(() {
+      organizeSong(widget.player);
+    });
+    },
+    child: Center(
+    child: Text(
+    songName ?? "",
+    style: TextStyle(
+    fontSize: 40,
+    ),
+    ),
+    ),
+    ),
+    SizedBox(
+    height: MediaQuery.of(context).size.height * 0.05,
+    ),
+    Center(
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+          RotationTransition(turns:
+    turnsTween.animate(_controller),
+    child: IconButton(
+    icon: Image.asset('lib/media/schildkrote.png'),
+    iconSize: 80,
+    onPressed: () {
+    slow(widget.player);
+    },
+    ),
+    ),
+
+
+    /*IconButton(
                 icon: Image.asset('lib/media/schildkrote.png'),
                 iconSize: 80,
                 onPressed: () {
                   slow(widget.player);
                 },
               ),
-              SizedBox(width: 20),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    zustand++;
-                  });
-                  (zustand % 2 == 0)
-                      ? pause(widget.player)
-                      : play(widget.player);
-                  if (zustand % 2 == 0) {
-                    reset(widget.player);
-                  }
-                },
-                icon: (zustand % 2 == 0)
-                    ? Icon(Icons.play_circle_outline)
-                    : Icon(Icons.stop),
-                iconSize: 100,
-              ),
-              SizedBox(width: 20),
-              IconButton(
-                icon: Image.asset('lib/media/hase.png'),
-                iconSize: 80,
-                onPressed: () {
-                  fast(widget.player);
-                },
-              ),
-            ],
-          ))
-        ],
-      ),
+
+               */
+    SizedBox(width: 20),
+    IconButton(
+    onPressed: () {
+    setState(() {
+    zustand++;
+    });
+    (zustand % 2 == 0)
+    ? pause(widget.player)
+        : play(widget.player);
+    if (zustand % 2 == 0) {
+    reset(widget.player);
+    }
+    },
+    icon: (zustand % 2 == 0)
+    ? Icon(Icons.play_circle_outline)
+        : Icon(Icons.stop),
+    iconSize: 100,
+    ),
+    SizedBox(width: 20),
+    IconButton(
+    icon: Image.asset('lib/media/hase.png'),
+    iconSize: 80,
+    onPressed: () {
+    fast(widget.player);
+    },
+    ),
+    ],
+    ))
+    ],
+    ),
     );
   }
 
   play(AudioPlayer player) async {
+    await player.setUrl('https://www.mboxdrive.com/congratulations.mp3');
     await player.play();
   }
 
@@ -156,5 +194,16 @@ class _NormalStartPageState extends State<NormalStartPage> {
 
   reset(AudioPlayer player) async {
     await player.setSpeed(1.0);
+  }
+
+  organizeSong(AudioPlayer player){
+    var songs = Provider.of<SongLibrary>(context, listen: false);
+    //var urls = Provider.of<UrlLibrary>(context, listen: false);
+  UrlLibrary urls = UrlLibrary();
+
+    int randomInt = Random().nextInt(songs.getLength());
+
+    songName = songs.getSong(randomInt);
+    player.setUrl(urls.getUrl(randomInt));
   }
 }

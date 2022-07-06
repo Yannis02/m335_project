@@ -7,11 +7,10 @@ class SongLibrary extends ChangeNotifier {
   SongLibrary() {
     _songs = [
       "Congratulations",
+      "Circles",
       "Rockstar",
       "Wow",
-      "One right now",
-      "Circles"
-
+      "One right now"
     ];
   }
 
@@ -21,6 +20,13 @@ class SongLibrary extends ChangeNotifier {
     return _songs[Random().nextInt(_songs.length)];
 
   }
+
+  String getSong (int index){
+    return _songs[index];
+}
+int getLength(){
+    return _songs.length;
+}
 
   add(String wisdom) {
     _songs.add(wisdom);
