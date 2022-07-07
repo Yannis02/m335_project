@@ -1,10 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:m335_project/model/urlLibrary.dart';
 
+/**
+ * library for all the url's of the songs
+ */
 class UrlLibrary extends ChangeNotifier {
+
   late List<String> _urls;
 
+  //saved song url's
   UrlLibrary() {
     _urls = [
       "https://www.mboxdrive.com/congratulations.mp3",
@@ -14,13 +18,11 @@ class UrlLibrary extends ChangeNotifier {
       "https://www.mboxdrive.com/oneRightNow.mp3"
     ];
   }
+
+  /**
+   * method to get an url by index
+   */
   String getUrl (int index){
     return _urls[index];
   }
-
-
-
-
-
-
 }
