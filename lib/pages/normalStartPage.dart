@@ -3,6 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:m335_project/model/urlLibrary.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
+import 'package:shake/shake.dart';
 
 import 'package:m335_project/model/songLibrary.dart';
 import 'package:m335_project/pages/libraryPage.dart';
@@ -47,6 +48,18 @@ class _NormalStartPageState extends State<NormalStartPage>
         AnimationController(vsync: this, duration: Duration(seconds: 2));
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn,);
     _controller.repeat();
+
+    ShakeDetector detector = ShakeDetector.autoStart(
+        onPhoneShake: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return CarModePage(widget.player);
+            }),
+          );
+        }
+    );
+
   }
 
   @override

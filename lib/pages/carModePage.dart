@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:m335_project/pages/carModePage.dart';
 import 'package:provider/provider.dart';
+import 'package:shake/shake.dart';
 
 import 'package:m335_project/pages/normalStartPage.dart';
 import 'package:m335_project/model/songLibrary.dart';
@@ -22,6 +23,23 @@ class _CarModePageState extends State<CarModePage> {
 
   forceRedraw() {
     setState(() => {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    ShakeDetector detector = ShakeDetector.autoStart(
+        onPhoneShake: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return NormalStartPage(widget.player);
+            }),
+          );
+        }
+    );
+
   }
 
   @override
