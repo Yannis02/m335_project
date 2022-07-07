@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:m335_project/model/urlLibrary.dart';
 import 'package:provider/provider.dart';
-import '../model/speedometer.dart';
-import 'package:flutter_bounce/flutter_bounce.dart';
-
-//import 'package:sensors/sensors.dart';
 import 'dart:math';
 
 import 'package:m335_project/model/songLibrary.dart';
@@ -32,6 +28,14 @@ class _NormalStartPageState extends State<NormalStartPage>
   final Tween<double> turnsTween = Tween<double>(
     begin: 1,
     end: 0,
+
+
+  );
+  final Tween<double> doesNotTurnTween = Tween<double>(
+    begin: 0,
+    end: 1,
+
+
   );
   var zustand = 0;
   String? songName;
@@ -97,7 +101,7 @@ class _NormalStartPageState extends State<NormalStartPage>
     width: 220,
     ),
     SizedBox(
-    height: MediaQuery.of(context).size.height * 0.1,
+    height: MediaQuery.of(context).size.height * 0.05,
     ),
     GestureDetector(
     onTap: () {
@@ -131,17 +135,6 @@ class _NormalStartPageState extends State<NormalStartPage>
     },
     ),
     ),
-
-
-    /*IconButton(
-                icon: Image.asset('lib/media/schildkrote.png'),
-                iconSize: 80,
-                onPressed: () {
-                  slow(widget.player);
-                },
-              ),
-
-               */
     SizedBox(width: 20),
     IconButton(
     onPressed: () {
@@ -161,6 +154,19 @@ class _NormalStartPageState extends State<NormalStartPage>
     iconSize: 100,
     ),
     SizedBox(width: 20),
+
+      RotationTransition(turns:
+      doesNotTurnTween.animate(_controller),
+        child: IconButton(
+          icon: Image.asset('lib/media/hase.png'),
+          iconSize: 80,
+          onPressed: () {
+            fast(widget.player);
+          },
+        ),
+      ),
+
+    /*
     IconButton(
     icon: Image.asset('lib/media/hase.png'),
     iconSize: 80,
@@ -168,6 +174,8 @@ class _NormalStartPageState extends State<NormalStartPage>
     fast(widget.player);
     },
     ),
+
+     */
     ],
     ))
     ],

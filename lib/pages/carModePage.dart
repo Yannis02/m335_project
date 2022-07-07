@@ -47,7 +47,7 @@ class _CarModePageState extends State<CarModePage> {
             width: 220,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.05,
           ),
           GestureDetector(
             onTap: () {
